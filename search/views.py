@@ -187,12 +187,7 @@ def connect(request):
 
     # If the user clicks on the login page and the user is logged in
     if request.user.is_authenticated:
-        if request:
-            dashboard(request)
-            return HttpResponseRedirect('dashboard.html')
-
-        if request == 'search/favorites':
-            return render(request, 'search/favorites.html', context)
+        return HttpResponseRedirect('dashboard.html')
 
 
 def check_connect(request, data):
@@ -219,8 +214,7 @@ def check_connect(request, data):
 
 def dashboard(request):
     """Dashboard is the handler of the user dashboard"""
-    context = {
-    }
+    context = {}
     # Check if user is connect or not
     if not request.user.is_authenticated:
         return render(request, 'search/connect.html', context)
@@ -241,8 +235,7 @@ def dashboard(request):
                         context['date_of_birth'] = info_next.date_of_birth
                         context['postal_address'] = info_next.postal_address
                         context['form_food'] = FoodForm()
-                        return render(request,
-                                      'search/dashboard.html', context)
+                        return render(request, 'search/dashboard.html', context)
 
 
 def result(request):
@@ -318,17 +311,18 @@ def result_search_categories(request, r_result, list_products, context):
             # Read the answer from OpenFoodFact
             if len(r_substitution['products']) != 0:
                 for product_r in r_substitution['products']:
-                    if 'nutrition_grades' in product_r and\
-                            (product_r['nutrition_grades'] == "a"
-                             or product_r['nutrition_grades'] == "b"
-                             or product_r['nutrition_grades'] == "c"
-                             or product_r['nutrition_grades'] == "d"):
-                        if 'id' in product_r:
-                            id_s = requests.get(
-                                "https://world.openfoodfacts.org/api/v0/product/" +
-                                product_r['id'] + ".json")
-                            id_r = id_s.json()
-                            id_result = id_r['product']
+                    if 'id' in product_r:
+                        id_s = requests.get(
+                            "https://world.openfoodfacts.org/api/v0/product/" +
+                            product_r['id'] + ".json")
+                        id_r = id_s.json()
+                        id_result = id_r['product']
+                        if 'nutrition_grades' in id_result and\
+                                (id_result['nutrition_grades'] == "a"
+                                 or id_result['nutrition_grades'] == "b"
+                                 or id_result['nutrition_grades'] == "c"
+                                 or id_result['nutrition_grades'] == "d"):
+
                             if id_result not in list_products:
                                 list_products.append(id_result)
                         context['product_result'] = list_products
