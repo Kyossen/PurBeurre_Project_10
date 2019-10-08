@@ -235,7 +235,8 @@ def dashboard(request):
                         context['date_of_birth'] = info_next.date_of_birth
                         context['postal_address'] = info_next.postal_address
                         context['form_food'] = FoodForm()
-                        return render(request, 'search/dashboard.html', context)
+                        return render(request, 'search/dashboard.html',
+                                      context)
 
 
 def result(request):
@@ -323,8 +324,8 @@ def result_search_categories(request, r_result, list_products, context):
                                  or id_result['nutrition_grades'] == "c"
                                  or id_result['nutrition_grades'] == "d"):
 
-                            if id_result not in list_products:
-                                list_products.append(id_result)
+                            if id_r not in list_products:
+                                list_products.append(id_r)
                         context['product_result'] = list_products
 
                         # Create a pagination for users.
@@ -372,8 +373,8 @@ def other_results_page(request, r_result, list_products, context):
                                  or id_result['nutrition_grades'] == "c"
                                  or id_result['nutrition_grades'] == "d"):
 
-                            if id_result not in list_products:
-                                list_products.append(id_result)
+                            if id_r not in list_products:
+                                list_products.append(id_r)
 
                     context['product_result'] = list_products
                     a = 6 * int(page_nb) - 6
@@ -525,8 +526,7 @@ def favorites(request):
     the favorites of the users"""
     context = {}
     product_id = request.GET.get('product')
-    # if product_id is not None and product_id != "":
-    if 'product' in request.GET:
+    if product_id is not None and product_id != "":
         p_id = requests.get("https://world.openfoodfacts.org/api/v0/product/" +
                             product_id + ".json")
         response = p_id.json()
@@ -573,23 +573,22 @@ def favorites_result(request, r_favorites, product, context):
     """Browse the answer and get the need information
     for add the favorite in database"""
     if len(r_favorites['product']) != 0:
-        for add_favorites in r_favorites['product']:
-            if 'nutrition_grades' in r_favorites['product'] and \
-                    (r_favorites['product']['nutrition_grades'] == "a"
-                     or r_favorites['product']['nutrition_grades'] == "b"
-                     or r_favorites['product']['nutrition_grades'] == "c"
-                     or r_favorites['product']['nutrition_grades'] == "d"):
-                context['product_score'] =\
-                    r_favorites['product']['nutrition_grades']
+        if 'nutrition_grades' in r_favorites['product'] and \
+                (r_favorites['product']['nutrition_grades'] == "a"
+                 or r_favorites['product']['nutrition_grades'] == "b"
+                 or r_favorites['product']['nutrition_grades'] == "c"
+                 or r_favorites['product']['nutrition_grades'] == "d"):
+            context['product_score'] =\
+                r_favorites['product']['nutrition_grades']
 
-            if 'nutrition_grades' not in r_favorites['product']:
-                r_favorites['product']['nutrition_grades'] = ""
-            if 'image_url' in r_favorites['product']:
-                context['product_img'] = r_favorites['product']['image_url']
-            if 'image_url' not in r_favorites['product']:
-                r_favorites['product']['image_url'] = ""
-            new_favorites = r_favorites['product']
-            return save_favorites(request, new_favorites, product)
+        if 'nutrition_grades' not in r_favorites['product']:
+            r_favorites['product']['nutrition_grades'] = ""
+        if 'image_url' in r_favorites['product']:
+            context['product_img'] = r_favorites['product']['image_url']
+        if 'image_url' not in r_favorites['product']:
+            r_favorites['product']['image_url'] = ""
+        new_favorites = r_favorites['product']
+        return save_favorites(request, new_favorites, product)
     else:
         data = {'error_food': 'Suite à un incident technique nous ne '
                               'pouvons enregistrer cet aliment dans vos '
