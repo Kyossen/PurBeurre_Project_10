@@ -525,7 +525,8 @@ def favorites(request):
     the favorites of the users"""
     context = {}
     product_id = request.GET.get('product')
-    if product_id is not None and product_id != "":
+    # if product_id is not None and product_id != "":
+    if 'product' in request.GET:
         p_id = requests.get("https://world.openfoodfacts.org/api/v0/product/" +
                             product_id + ".json")
         response = p_id.json()
