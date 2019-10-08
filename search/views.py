@@ -318,18 +318,17 @@ def result_search_categories(request, r_result, list_products, context):
             # Read the answer from OpenFoodFact
             if len(r_substitution['products']) != 0:
                 for product_r in r_substitution['products']:
-                    if 'id' in product_r:
-                        id_s = requests.get(
-                            "https://world.openfoodfacts.org/api/v0/product/" +
-                            product_r['id'] + ".json")
-                        id_r = id_s.json()
-                        id_result = id_r['product']
-                        if 'nutrition_grades' in id_result and\
-                                (id_result['nutrition_grades'] == "a"
-                                 or id_result['nutrition_grades'] == "b"
-                                 or id_result['nutrition_grades'] == "c"
-                                 or id_result['nutrition_grades'] == "d"):
-
+                    if 'nutrition_grades' in product_r and\
+                            (product_r['nutrition_grades'] == "a"
+                             or product_r['nutrition_grades'] == "b"
+                             or product_r['nutrition_grades'] == "c"
+                             or product_r['nutrition_grades'] == "d"):
+                        if 'id' in product_r:
+                            id_s = requests.get(
+                                "https://world.openfoodfacts.org/api/v0/product/" +
+                                product_r['id'] + ".json")
+                            id_r = id_s.json()
+                            id_result = id_r['product']
                             if id_result not in list_products:
                                 list_products.append(id_result)
                         context['product_result'] = list_products
