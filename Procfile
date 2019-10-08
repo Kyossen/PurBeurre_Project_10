@@ -1,1 +1,1 @@
-web: gunicorn hello:project_8.wsgi --timeout 10 
+web: gunicorn hello:project_8.wsgi
