@@ -535,7 +535,8 @@ def favorites(request):
     # If user open favorites page and not add favorites
     else:
         if request.user.is_authenticated:
-            food_all = []
+            food_all = Substitution.objects.filter(
+                user__id=2)
             # Check if user have already added of the favorites
             if len(food_all) != 0:
                 return display_my_favorites(request, food_all)
