@@ -80,8 +80,7 @@ def sign_up(request):
     else:
         # GET method. Create a new form to be used in the template.
         form = SignupForm()
-    form_food = FoodForm()
-    context['form_food'] = form_food
+    context['form_food'] = FoodForm()
     context['form'] = form
     return render(request, 'search/sign_up.html', context)
 
