@@ -535,13 +535,11 @@ def favorites(request):
     # If user open favorites page and not add favorites
     else:
         if request.user.is_authenticated:
-            food_all = Substitution.objects.all()
+            food_all = Substitution.objects.filter(
+                user_id=request.session['member_id'])
             # Check if user have already added of the favorites
             if len(food_all) != 0:
-                user_id = request.session['member_id']
-                if user_id in food_all:
-                    food_user = food_all.filter(user_id)
-                    return display_my_favorites(request, food_user)
+                return display_my_favorites(request, food_all)
             else:
                 context['form_food'] = FoodForm()
                 context['not_food'] = "Vous n'avez pas " \
