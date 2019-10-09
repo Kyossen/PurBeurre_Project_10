@@ -533,7 +533,7 @@ def favorites(request):
         return favorites_result(request, response, product_name, context)
 
     # If user open favorites page and not add favorites
-    if not product_id:
+    else:
         if request.user.is_authenticated:
             food_all = Substitution.objects.filter(
                 user__id=request.session['member_id'])
