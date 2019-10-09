@@ -523,8 +523,10 @@ def favorites(request):
     She is also the method for run the view for display
     the favorites of the users"""
     context = {}
-    product_id = request.GET.get('product')
-    if product_id is not None and product_id != "":
+    if 'product' in request.GET:
+        product_id = request.GET.get('product')
+    # product_id = request.GET.get('product')
+    # if product_id is not None and product_id != "":
         p_id = requests.get("https://world.openfoodfacts.org/api/v0/product/" +
                             product_id + ".json")
         response = p_id.json()
