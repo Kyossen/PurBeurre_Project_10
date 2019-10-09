@@ -536,7 +536,7 @@ def favorites(request):
     else:
         if request.user.is_authenticated:
             food_all = Substitution.objects.filter(
-                user__id=request.session['member_id'])
+                user__id=request.user)
             # Check if user have already added of the favorites
             if len(food_all) != 0:
                 return display_my_favorites(request, food_all)
