@@ -32,8 +32,7 @@ def index(request):
     """Index function is a function that manage the platform base
     She get a input user and
     execute a find with API OpenFoodFact and result function"""
-    context = {
-    }
+    context = {}
     # Get input user
     if request.method == 'POST':
         form = FoodForm(request.POST, error_class=ParagraphErrorList)
@@ -248,8 +247,7 @@ def result(request):
     if request.method == 'POST':
         # Check if input is good
         if request.POST.get('food') == "":
-            form = FoodForm()
-            context['form_food'] = form
+            context['form_food'] = FoodForm()
             context['error_result'] = "Nous avons eu un problème, pouvez " \
                                       "vous recommencer ? Merci."
             return render(request, 'search/result.html', context)
@@ -535,7 +533,7 @@ def favorites(request):
         return favorites_result(request, response, product_name, context)
 
     # If user open favorites page and not add favorites
-    else:
+    if not product_id:
         if request.user.is_authenticated:
             food_all = Substitution.objects.filter(
                 user__id=request.session['member_id'])
