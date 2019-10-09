@@ -523,10 +523,8 @@ def favorites(request):
     She is also the method for run the view for display
     the favorites of the users"""
     context = {}
-    if 'product' in request.GET:
-        product_id = request.GET.get('product')
-    # product_id = request.GET.get('product')
-    # if product_id is not None and product_id != "":
+    product_id = request.GET.get('product')
+    if product_id is not None and product_id != "":
         p_id = requests.get("https://world.openfoodfacts.org/api/v0/product/" +
                             product_id + ".json")
         response = p_id.json()
@@ -540,9 +538,7 @@ def favorites(request):
             food_all = Substitution.objects.filter(
                 user__id=request.session['member_id'])
             # Check if user have already added of the favorites
-            if len(food_all) != 0:
-                return display_my_favorites(request, food_all)
-            else:
+            if len(food_all) == 0:
                 context['form_food'] = FoodForm()
                 context['not_food'] = "Vous n'avez pas " \
                                       "encore enregistré d'aliment."
