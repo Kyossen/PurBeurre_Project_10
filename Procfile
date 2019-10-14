@@ -1,1 +1,1 @@
-web: gunicorn manage.py:search --timeout 180
+web: gunicorn project_8:app --timeout 180
