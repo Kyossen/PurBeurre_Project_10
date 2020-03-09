@@ -48,7 +48,7 @@ def result(request):
             context['form_food'] = FoodForm()
             context['error_result'] = "Nous avons eu un problème, pouvez " \
                                       "vous recommencer ? Merci."
-            return render(request, 'search/result.html', context)
+            return render(request, 'search/result.html', context, status=401)
         else:
             food = request.POST['food']
             # Getting a more info on food
@@ -56,8 +56,10 @@ def result(request):
 
     else:
         # Check if user use a correct url when the page is the next or previous
+        print(request.GET)
         if 'page' in request.GET:
             food = request.GET['search']
+
             return result_search(request, food, list_products)
 
 
@@ -65,7 +67,7 @@ def result_search(request, food, list_products):
     """This function is used for get information
     on the food in the database with a filter"""
     context = {}
-    food = Product.objects.filter(name=food)
+    food = Product.objects.filter(name__icontains=food)
     for food_result in food:
         context['name_result'] = food_result.name
         context['img_result'] = food_result.image_url
@@ -108,7 +110,7 @@ def check_food_save_result(request, list_products, context):
     if request.user.is_authenticated:
         # Get the food that user have saved
         food_all = Substitution.objects.filter(
-            user=request.session['member_id'])
+            user=request.user)
         if len(food_all) == 0:
             context['save_food'] = list_food_save
         else:
@@ -138,7 +140,7 @@ def error_result(request, error):
         context['form_food'] = FoodForm()
         context['error_result'] = "Nous avons eu un problème, " \
                                   "pouvez vous recommencer ? Merci."
-        return render(request, 'search/result.html', context)
+        return render(request, 'search/result.html', context, status=401)
 
 
 def description(request):
@@ -198,7 +200,7 @@ def error_load_page(request, context):
         context['error_description'] = \
             "Nous avons eu un problème, pouvez vous recommencer ? Merci."
         context['form_food'] = FoodForm()
-        return render(request, 'search/description.html', context)
+        return render(request, 'search/description.html', context, status=200)
     else:
         context['form_food'] = FoodForm()
         context['error_description'] = "Nous avons eu un problème, " \
