@@ -198,22 +198,6 @@
     flex-wrap: wrap;
 }
 
-.block_des {
-    background-image: url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
-    width: 100%;
-    border: 1px dotted #CCCCCC;
-    padding: 0.5em;
-}
-
-.name_des {
-    background-image: url(../img/kawin-harasai-k60JspcBwKE-unsplash.jpg);
-    width: 100%;
-    border: 1px dotted #CCCCCC;
-    padding: 0.5em;
-    position: relative;
-    bottom: 200px;
-}
-
 .score_des {
     padding-top: 15px;
     position: relative;
