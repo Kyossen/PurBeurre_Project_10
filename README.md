@@ -1,1 +1,5 @@
 # PurBeurre_Project_10
+
+Ce projet ce touve être la copie du projet 8. 
+La différence, ce dernier dispo de fonctionnalités supplémentaires du à certains utilitaires.
+Il dispo de SuperVisor, de Travis, de tâche Cron, etc ...
