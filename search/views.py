@@ -151,7 +151,7 @@ def description(request):
     # Check if product is present in the url
     product_id = request.GET.get('product')
     # Filter the id of the product for be sure that is a good product
-    product = Product.objects.filter(code=product_id)
+    product = Products.objects.filter(code=product_id)
     for des_product in product:
         if des_product.name:
             context['product_name'] = des_product.name
