@@ -196,6 +196,22 @@ class ConnectPageTestCase(TestCase):
                                      'wordpass': 'wordpss'})
         self.assertEqual(response.status_code, 401)
 
+    def test_ForgotPassword_page_returns_200(self):
+        """Test with valid email"""
+        print('Forgot password test an with email valid')
+        response = self.client.post(reverse('password_reset'),
+                                    {'email': 'test@hotmail.fr'})
+        self.assertEqual(response.status_code, 302)
+
+    def test_ForgotPassword2_page_returns_200(self):
+        """Test with a bad email"""
+        print('Forgot password test with an email not valid')
+        response = self.client.post(reverse('password_reset'),
+                                    {'email': 'testhotmail.fr'})
+        # The result is 200 because the password reset page works on any case.
+        # However, the email is not sent
+        self.assertEqual(response.status_code, 200)
+
 
 class DashboardPageTestCase(TestCase):
     """This class tests whether the dashboard page
