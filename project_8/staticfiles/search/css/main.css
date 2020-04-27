@@ -343,3 +343,7 @@
     padding-top: 20px;
     position: relative;
 }
+
+.text_reset_password {
+    display: -webkit-box;!important;
+}
