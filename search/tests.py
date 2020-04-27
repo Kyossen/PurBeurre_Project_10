@@ -62,9 +62,13 @@ class ResultPageTestCase(TestCase):
 
     def test_result_page_returns_notExist(self):
         """Test if food not is find or not exist"""
-        print("Test for find a food. If food is not found.")
-        response = self.client.post(reverse('result'), {'food': 'NotExist'})
-        self.assertEqual(response.status_code, 401)
+        print("Test for find a food. Food is not found.")
+        try:
+            response = self.client.post(reverse('result'), {'food': 'NotExist'})
+            self.assertEqual(response.status_code, 401)
+        except ValueError:
+            raise ValueError("Check line 77. "
+                             "Missing a letter or something else in the parameter")
 
 
 class DescriptionPageTestCase(TestCase):
